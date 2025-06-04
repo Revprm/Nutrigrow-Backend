@@ -1,20 +1,25 @@
 package entity
 
 import (
-	"github.com/Caknoooo/go-gin-clean-starter/helpers"
+	"github.com/Caknoooo/go-gin-clean-starter/helpers" // Assuming this path is correct from your imports
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type User struct {
-	ID         uuid.UUID `gorm:"type:uuid;primary_key;default:uuid_generate_v4()" json:"id"`
-	Name       string    `gorm:"type:varchar(100);not null" json:"name" validate:"required,min=2,max=100"`
-	Email      string    `gorm:"type:varchar(255);uniqueIndex;not null" json:"email" validate:"required,email"`
-	TelpNumber string    `gorm:"type:varchar(20);index" json:"telp_number" validate:"omitempty,required,min=8,max=20"`
-	Password   string    `gorm:"type:varchar(255);not null" json:"-" validate:"required,min=8"`
-	Role       string    `gorm:"type:varchar(50);not null;default:'user'" json:"role" validate:"required,oneof=user admin"`
-	ImageUrl   string    `gorm:"type:varchar(255)" json:"image_url" validate:"omitempty,url"`
-	IsVerified bool      `gorm:"default:false" json:"is_verified"`
+	ID           uuid.UUID `gorm:"type:uuid;primary_key;default:uuid_generate_v4()"`
+	Name         string    `gorm:"type:varchar(100);not null"`
+	Email        string    `gorm:"type:varchar(255);uniqueIndex;not null"`
+	TelpNumber   string    `gorm:"type:varchar(20);index"` // PDM specified 13, yours has 20. Keeping 20.
+	Password     string    `gorm:"type:varchar(255);not null"`
+	Role         string    `gorm:"type:varchar(50);not null;default:'user'"`
+	ImageUrl     string    `gorm:"type:varchar(255)"`
+	IsVerified   bool      `gorm:"default:false"`
+	Alamat       string    `gorm:"type:varchar(255);column:alamat"`   // New from PDM
+	JenisKelamin string    `gorm:"type:char(1);column:jenis_kelamin"` // New from PDM (e.g., 'L', 'P')
+
+	// Relationships
+	Stuntings []Stunting `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"` // User can have multiple stunting records
 
 	Timestamp
 }

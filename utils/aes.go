@@ -11,8 +11,10 @@ import (
 )
 
 const (
-	// todo
-	KEY = "8e71bbce7451ba2835de5aea73e4f3f96821455240823d2fd8174975b8321bfc!"
+	// The AES key should be a valid hexadecimal string.
+	// For AES-256, it needs to be 32 bytes, which is 64 hexadecimal characters.
+	// Removed the '!' character which was causing the encoding/hex error.
+	KEY = "8e71bbce7451ba2835de5aea73e4f3f96821455240823d2fd8174975b8321bfc"
 )
 
 // https://www.melvinvivas.com/how-to-encrypt-and-decrypt-data-using-aes
