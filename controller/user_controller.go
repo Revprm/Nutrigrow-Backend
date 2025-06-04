@@ -3,9 +3,9 @@ package controller
 import (
 	"net/http"
 
-	"github.com/Caknoooo/go-gin-clean-starter/dto"
-	"github.com/Caknoooo/go-gin-clean-starter/service"
-	"github.com/Caknoooo/go-gin-clean-starter/utils"
+	"github.com/Revprm/Nutrigrow-Backend/dto"
+	"github.com/Revprm/Nutrigrow-Backend/service"
+	"github.com/Revprm/Nutrigrow-Backend/utils"
 	"github.com/gin-gonic/gin"
 )
 

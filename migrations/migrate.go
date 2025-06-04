@@ -1,7 +1,7 @@
 package migrations
 
 import (
-	"github.com/Caknoooo/go-gin-clean-starter/entity"
+	"github.com/Revprm/Nutrigrow-Backend/entity"
 	"gorm.io/gorm"
 )
 

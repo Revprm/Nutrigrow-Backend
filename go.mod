@@ -1,10 +1,11 @@
-module github.com/Caknoooo/go-gin-clean-starter
+module github.com/Revprm/Nutrigrow-Backend
 
 go 1.23.0
 
 toolchain go1.24.1
 
 require (
+	github.com/Caknoooo/go-gin-clean-starter v1.0.0
 	github.com/common-nighthawk/go-figure v0.0.0-20210622060536-734e95fb86be
 	github.com/gin-gonic/gin v1.10.0
 	github.com/golang-jwt/jwt/v4 v4.5.1

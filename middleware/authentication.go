@@ -4,16 +4,16 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/Caknoooo/go-gin-clean-starter/dto"
-	"github.com/Caknoooo/go-gin-clean-starter/service"
-	"github.com/Caknoooo/go-gin-clean-starter/utils"
+	"github.com/Revprm/Nutrigrow-Backend/dto"
+	"github.com/Revprm/Nutrigrow-Backend/service"
+	"github.com/Revprm/Nutrigrow-Backend/utils"
 	"github.com/gin-gonic/gin"
 )
 
 func Authenticate(jwtService service.JWTService) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		authHeader := ctx.GetHeader("Authorization")
-		
+
 		if authHeader == "" {
 			response := utils.BuildResponseFailed(dto.MESSAGE_FAILED_PROSES_REQUEST, dto.MESSAGE_FAILED_TOKEN_NOT_FOUND, nil)
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, response)

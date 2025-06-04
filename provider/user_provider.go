@@ -1,9 +1,9 @@
 package provider
 
 import (
-	"github.com/Caknoooo/go-gin-clean-starter/controller"
-	"github.com/Caknoooo/go-gin-clean-starter/repository"
-	"github.com/Caknoooo/go-gin-clean-starter/service"
+	"github.com/Revprm/Nutrigrow-Backend/controller"
+	"github.com/Revprm/Nutrigrow-Backend/repository"
+	"github.com/Revprm/Nutrigrow-Backend/service"
 	"github.com/samber/do"
 	"gorm.io/gorm"
 )

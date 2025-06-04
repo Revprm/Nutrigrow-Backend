@@ -1,10 +1,10 @@
 package routes
 
 import (
-	"github.com/Caknoooo/go-gin-clean-starter/constants"
-	"github.com/Caknoooo/go-gin-clean-starter/controller"
-	"github.com/Caknoooo/go-gin-clean-starter/middleware"
-	"github.com/Caknoooo/go-gin-clean-starter/service"
+	"github.com/Revprm/Nutrigrow-Backend/constants"
+	"github.com/Revprm/Nutrigrow-Backend/controller"
+	"github.com/Revprm/Nutrigrow-Backend/middleware"
+	"github.com/Revprm/Nutrigrow-Backend/service"
 	"github.com/gin-gonic/gin"
 	"github.com/samber/do"
 )

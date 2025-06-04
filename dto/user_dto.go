@@ -3,8 +3,7 @@ package dto
 import (
 	"errors"
 	"mime/multipart"
-
-	"github.com/Caknoooo/go-gin-clean-starter/entity"
+	"github.com/Revprm/Nutrigrow-Backend/entity"
 )
 
 const (

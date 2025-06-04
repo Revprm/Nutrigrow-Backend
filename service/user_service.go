@@ -5,18 +5,19 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"gorm.io/gorm"
 	"html/template"
 	"os"
 	"strings"
 	"time"
 
-	"github.com/Caknoooo/go-gin-clean-starter/constants"
-	"github.com/Caknoooo/go-gin-clean-starter/dto"
-	"github.com/Caknoooo/go-gin-clean-starter/entity"
-	"github.com/Caknoooo/go-gin-clean-starter/helpers"
-	"github.com/Caknoooo/go-gin-clean-starter/repository"
-	"github.com/Caknoooo/go-gin-clean-starter/utils"
+	"gorm.io/gorm"
+
+	"github.com/Revprm/Nutrigrow-Backend/constants"
+	"github.com/Revprm/Nutrigrow-Backend/dto"
+	"github.com/Revprm/Nutrigrow-Backend/entity"
+	"github.com/Revprm/Nutrigrow-Backend/helpers"
+	"github.com/Revprm/Nutrigrow-Backend/repository"
+	"github.com/Revprm/Nutrigrow-Backend/utils"
 	"github.com/google/uuid"
 )
 
