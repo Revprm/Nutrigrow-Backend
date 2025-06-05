@@ -75,16 +75,15 @@ There are 2 ways to do running
   go run main.go
   ```
 
-## Run Migrations, Seeder, and Script
-To run migrations, seed the database, and execute a script while keeping the application running, use the following command:
+## Run Migrations and Seeder
+To run migrations and seed the database while keeping the application running, use the following command:
 
 ```bash
-go run main.go --migrate --seed --run --script:example_script
+go run main.go --migrate --seed --run
 ```
 
 - ``--migrate`` will apply all pending migrations.
 - ``--seed`` will seed the database with initial data.
-- ``--script:example_script`` will run the specified script (replace ``example_script`` with your script name).
 - ``--run`` will ensure the application continues running after executing the commands above.
 
 #### Migrate Database 
