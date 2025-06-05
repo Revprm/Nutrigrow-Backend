@@ -21,9 +21,9 @@ func BahanMakanan(route *gin.Engine, injector *do.Injector) {
 		
 		authenticated := routes.Use(middleware.Authenticate(jwtService))
 		{
-			authenticated.POST("", bahanMakananController.Create)
-			authenticated.PUT("/:id", bahanMakananController.Update)
-			authenticated.DELETE("/:id", bahanMakananController.Delete)
+			authenticated.POST("", bahanMakananController.Create, middleware.OnlyAllow(constants.ENUM_ROLE_ADMIN))
+			authenticated.PUT("/:id", bahanMakananController.Update, middleware.OnlyAllow(constants.ENUM_ROLE_ADMIN))
+			authenticated.DELETE("/:id", bahanMakananController.Delete, middleware.OnlyAllow(constants.ENUM_ROLE_ADMIN))
 		}
 	}
 }

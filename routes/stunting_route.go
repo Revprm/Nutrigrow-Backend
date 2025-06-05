@@ -19,7 +19,7 @@ func Stunting(route *gin.Engine, injector *do.Injector) {
 
 		authenticated := routes.Use(middleware.Authenticate(jwtService))
 		{
-			authenticated.POST("", stuntingController.Create)
+			authenticated.POST("", stuntingController.Create, middleware.OnlyAllow(constants.ENUM_ROLE_ADMIN))
 			authenticated.GET("/:id", stuntingController.GetByID)
 			authenticated.GET("/user/:user_id", stuntingController.GetByUserID)
 			authenticated.GET("/user/:user_id/latest", stuntingController.GetLatestByUserID)

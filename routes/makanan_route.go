@@ -17,14 +17,14 @@ func Makanan(route *gin.Engine, injector *do.Injector) {
 	{
 		routes.GET("/:id", makananController.GetByID)
 		routes.GET("/nama/:nama", makananController.GetByNama)
-		routes.GET("", makananController.GetAll) // Get all food items with pagination
-		routes.GET("/bahan/:bahanId", makananController.GetByBahanMakanan) // Get food items by ingredient ID with pagination
+		routes.GET("", makananController.GetAll) 
+		routes.GET("/bahan/:bahanId", makananController.GetByBahanMakanan) 
 
 		authenticated := routes.Use(middleware.Authenticate(jwtService))
 		{
-			authenticated.POST("", makananController.Create)
-			authenticated.PUT("/:id", makananController.Update)
-			authenticated.DELETE("/:id", makananController.Delete)
+			authenticated.POST("", makananController.Create, middleware.OnlyAllow(constants.ENUM_ROLE_ADMIN))
+			authenticated.PUT("/:id", makananController.Update, middleware.OnlyAllow(constants.ENUM_ROLE_ADMIN))
+			authenticated.DELETE("/:id", makananController.Delete, middleware.OnlyAllow(constants.ENUM_ROLE_ADMIN))
 		}
 	}
 }

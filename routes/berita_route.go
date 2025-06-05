@@ -21,9 +21,9 @@ func Berita(route *gin.Engine, injector *do.Injector) {
 
 		authenticated := routes.Use(middleware.Authenticate(jwtService))
 		{
-			authenticated.POST("", beritaController.Create)
-			authenticated.PUT("/:id", beritaController.Update)
-			authenticated.DELETE("/:id", beritaController.Delete)
+			authenticated.POST("", beritaController.Create, middleware.OnlyAllow(constants.ENUM_ROLE_ADMIN))
+			authenticated.PUT("/:id", beritaController.Update, middleware.OnlyAllow(constants.ENUM_ROLE_ADMIN))
+			authenticated.DELETE("/:id", beritaController.Delete, middleware.OnlyAllow(constants.ENUM_ROLE_ADMIN))
 		}
 	}
 }
