@@ -19,6 +19,7 @@ services:
       - APP_ENV=${APP_ENV} 
     depends_on:
       - postgres
+      - nutrigrow-ml-api
 
   nginx:
     image: nginx:latest
@@ -46,6 +47,18 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_DB=${DB_NAME}
+    networks:
+      - app-network
+
+  nutrigrow-ml-api:
+    image: revprm/fp-hci-model:latest
+    container_name: nutrigrow-ml-api
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    environment:
+      PYTHONDONTWRITEBYTECODE: 1
+      PYTHONUNBUFFERED: 1
     networks:
       - app-network
 
