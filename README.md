@@ -8,7 +8,7 @@ A Backend Repository for [Nutrigrow](https://github.com/Logiqode/Nutrigrow) Proj
 - PostgreSQL Version `>= version 15.0`
 
 ## How To Use
-1. Clone the repository or **Use This Template**
+1. Clone the repository
   ```bash
   git clone https://github.com/Revprm/Nutrigrow-Backend.git
   ```
