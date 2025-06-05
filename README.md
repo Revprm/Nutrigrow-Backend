@@ -27,7 +27,7 @@ A Backend Repository for [Nutrigrow](https://github.com/Logiqode/Nutrigrow) Proj
   ```
 2. Navigate to the project directory:
   ```bash
-  cd go-gin-clean-starter
+  cd Nutrigrow-Backend
   ```
 3. Copy the example environment file and configure it:
   ```bash 
