@@ -14,6 +14,7 @@ const (
 	MESSAGE_FAILED_GET_LIST_USER      = "failed get list user"
 	MESSAGE_FAILED_TOKEN_NOT_VALID    = "token not valid"
 	MESSAGE_FAILED_TOKEN_NOT_FOUND    = "token not found"
+	MESSAGE_FAILED_VERIFY_TOKEN       = "token failed to verify"
 	MESSAGE_FAILED_GET_USER           = "failed get user"
 	MESSAGE_FAILED_LOGIN              = "failed login"
 	MESSAGE_FAILED_UPDATE_USER        = "failed update user"
@@ -45,6 +46,7 @@ var (
 	ErrTokenInvalid           = errors.New("token invalid")
 	ErrTokenExpired           = errors.New("token expired")
 	ErrAccountAlreadyVerified = errors.New("account already verified")
+	ErrRoleNotAllowed         = errors.New("denied access for \"%v\" role")
 )
 
 type (

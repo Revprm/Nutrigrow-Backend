@@ -40,13 +40,13 @@ type (
 		UserID          uuid.UUID `json:"user_id" form:"user_id" binding:"required"`
 		JenisKelamin    string    `json:"jenis_kelamin" form:"jenis_kelamin" binding:"required"`
 		UmurBulan       int       `json:"umur_bulan" form:"umur_bulan" binding:"required"`
-		TinggiBadan     float64   `json:"tinggi_badan" form:"tinggi_badan" binding:"required"`
+		TinggiBadan     float64   `json:"tinggi_badan" form:"tinggi_badan" binding:"required"` // Keep float64 for database storage if needed
 		CatatanStunting string    `json:"catatan_stunting" form:"catatan_stunting"`
 	}
 
 	StuntingUpdateRequest struct {
 		JenisKelamin    string  `json:"jenis_kelamin" form:"jenis_kelamin"`
-		TinggiBadan     float64 `json:"tinggi_badan" form:"tinggi_badan"`
+		TinggiBadan     float64 `json:"tinggi_badan" form:"tinggi_badan"` // Keep float64 for database storage if needed
 		CatatanStunting string  `json:"catatan_stunting" form:"catatan_stunting"`
 		HasilPrediksi   string  `json:"hasil_prediksi" form:"hasil_prediksi"`
 	}
@@ -63,7 +63,7 @@ type (
 	StuntingPredictRequest struct {
 		UmurBulan    int     `json:"umur_bulan" form:"umur_bulan" binding:"required"`
 		JenisKelamin string  `json:"jenis_kelamin" form:"jenis_kelamin" binding:"required"`
-		TinggiBadan  float64 `json:"tinggi_badan" form:"tinggi_badan" binding:"required"`
+		TinggiBadan  int     `json:"tinggi_badan" form:"tinggi_badan" binding:"required"` 
 	}
 
 	StuntingPredictResponse struct {
