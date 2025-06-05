@@ -10,6 +10,15 @@ services:
       - ${GOLANG_PORT:-8888}:8888
     networks:
       - app-network
+    environment:
+      - DB_HOST=postgres
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+      - APP_ENV=${APP_ENV} 
+    depends_on:
+      - postgres
 
   nginx:
     image: nginx:latest
