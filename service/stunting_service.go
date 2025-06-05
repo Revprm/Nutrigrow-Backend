@@ -1,6 +1,7 @@
 package service
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
@@ -8,15 +9,10 @@ import (
 	"io"
 	"net/http"
 
-	// "strconv"
-	"bytes"
-
 	"github.com/Revprm/Nutrigrow-Backend/dto"
 	"github.com/Revprm/Nutrigrow-Backend/entity"
 	"github.com/Revprm/Nutrigrow-Backend/repository"
-	// "golang.org/x/text/cases"
-
-	// "github.com/google/uuid"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -89,6 +85,19 @@ func (s *stuntingService) GetByID(ctx context.Context, id string) (dto.StuntingR
 		jenisKelamin = "Laki-laki"
 	}
 
+	userResponse := dto.UserResponse{}
+	if result.User.ID != uuid.Nil {
+		userResponse = dto.UserResponse{
+			ID:         result.User.ID.String(),
+			Name:       result.User.Name,
+			Email:      result.User.Email,
+			TelpNumber: result.User.TelpNumber,
+			Role:       result.User.Role,
+			ImageUrl:   result.User.ImageUrl,
+			IsVerified: result.User.IsVerified,
+		}
+	}
+
 	return dto.StuntingResponse{
 		ID:              result.ID,
 		UserID:          result.UserID,
@@ -96,10 +105,13 @@ func (s *stuntingService) GetByID(ctx context.Context, id string) (dto.StuntingR
 		TinggiBadan:     result.TinggiBadan,
 		CatatanStunting: result.CatatanStunting,
 		HasilPrediksi:   result.HasilPrediksi,
+		User:            userResponse,
 	}, nil
 }
 
 func (s *stuntingService) GetByUserID(ctx context.Context, userID string, req dto.PaginationRequest) (dto.StuntingPaginationResponse, error) {
+	req.Default()
+
 	results, count, err := s.stuntingRepo.GetByUserID(ctx, nil, userID, req)
 	if err != nil {
 		return dto.StuntingPaginationResponse{}, dto.ErrGetStuntingByUserId
@@ -112,6 +124,19 @@ func (s *stuntingService) GetByUserID(ctx context.Context, userID string, req dt
 			jenisKelamin = "Laki-laki"
 		}
 
+		userResponse := dto.UserResponse{}
+		if result.User.ID != uuid.Nil {
+			userResponse = dto.UserResponse{
+				ID:         result.User.ID.String(),
+				Name:       result.User.Name,
+				Email:      result.User.Email,
+				TelpNumber: result.User.TelpNumber,
+				Role:       result.User.Role,
+				ImageUrl:   result.User.ImageUrl,
+				IsVerified: result.User.IsVerified,
+			}
+		}
+
 		data = append(data, dto.StuntingResponse{
 			ID:              result.ID,
 			UserID:          result.UserID,
@@ -119,8 +144,11 @@ func (s *stuntingService) GetByUserID(ctx context.Context, userID string, req dt
 			TinggiBadan:     result.TinggiBadan,
 			CatatanStunting: result.CatatanStunting,
 			HasilPrediksi:   result.HasilPrediksi,
+			User:            userResponse,
 		})
 	}
+
+	maxPage := repository.TotalPage(count, int64(req.PerPage))
 
 	return dto.StuntingPaginationResponse{
 		Data: data,
@@ -128,6 +156,7 @@ func (s *stuntingService) GetByUserID(ctx context.Context, userID string, req dt
 			Page:    req.Page,
 			PerPage: req.PerPage,
 			Count:   count,
+			MaxPage: maxPage,
 		},
 	}, nil
 }
@@ -146,6 +175,19 @@ func (s *stuntingService) GetLatestByUserID(ctx context.Context, userID string) 
 		jenisKelamin = "Laki-laki"
 	}
 
+	userResponse := dto.UserResponse{}
+	if result.User.ID != uuid.Nil {
+		userResponse = dto.UserResponse{
+			ID:         result.User.ID.String(),
+			Name:       result.User.Name,
+			Email:      result.User.Email,
+			TelpNumber: result.User.TelpNumber,
+			Role:       result.User.Role,
+			ImageUrl:   result.User.ImageUrl,
+			IsVerified: result.User.IsVerified,
+		}
+	}
+
 	return dto.StuntingResponse{
 		ID:              result.ID,
 		UserID:          result.UserID,
@@ -153,6 +195,7 @@ func (s *stuntingService) GetLatestByUserID(ctx context.Context, userID string) 
 		TinggiBadan:     result.TinggiBadan,
 		CatatanStunting: result.CatatanStunting,
 		HasilPrediksi:   result.HasilPrediksi,
+		User:            userResponse,
 	}, nil
 }
 
@@ -162,7 +205,6 @@ func (s *stuntingService) Update(ctx context.Context, id string, req dto.Stuntin
 		return dto.StuntingResponse{}, dto.ErrStuntingNotFound
 	}
 
-	// Convert gender from string to int if provided
 	if req.JenisKelamin != "" {
 		if req.JenisKelamin == "Laki-laki" {
 			existing.JenisKelamin = 1
@@ -193,6 +235,19 @@ func (s *stuntingService) Update(ctx context.Context, id string, req dto.Stuntin
 		jenisKelamin = "Laki-laki"
 	}
 
+	userResponse := dto.UserResponse{}
+	if updated.User.ID != uuid.Nil {
+		userResponse = dto.UserResponse{
+			ID:         updated.User.ID.String(),
+			Name:       updated.User.Name,
+			Email:      updated.User.Email,
+			TelpNumber: updated.User.TelpNumber,
+			Role:       updated.User.Role,
+			ImageUrl:   updated.User.ImageUrl,
+			IsVerified: updated.User.IsVerified,
+		}
+	}
+
 	return dto.StuntingResponse{
 		ID:              updated.ID,
 		UserID:          updated.UserID,
@@ -200,6 +255,7 @@ func (s *stuntingService) Update(ctx context.Context, id string, req dto.Stuntin
 		TinggiBadan:     updated.TinggiBadan,
 		CatatanStunting: updated.CatatanStunting,
 		HasilPrediksi:   updated.HasilPrediksi,
+		User:            userResponse,
 	}, nil
 }
 
@@ -218,10 +274,11 @@ func (s *stuntingService) Predict(ctx context.Context, req dto.StuntingPredictRe
 	}
 
 	// Prepare request payload for ML API
+	// Ensure TinggiBadan is sent as an integer
 	payload := map[string]interface{}{
-		"Umur (bulan)":         req.UmurBulan,
-		"Jenis Kelamin":        gender,
-		"Tinggi Badan (cm)":    req.TinggiBadan,
+		"Umur (bulan)":      req.UmurBulan,
+		"Jenis Kelamin":     gender,
+		"Tinggi Badan (cm)": req.TinggiBadan, // Now an int from the DTO
 	}
 
 	jsonPayload, err := json.Marshal(payload)
@@ -237,7 +294,9 @@ func (s *stuntingService) Predict(ctx context.Context, req dto.StuntingPredictRe
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return dto.StuntingPredictResponse{}, fmt.Errorf("prediction API returned status: %d", resp.StatusCode)
+		// Log the full response body for debugging 422 errors
+		respBodyBytes, _ := io.ReadAll(resp.Body)
+		return dto.StuntingPredictResponse{}, fmt.Errorf("prediction API returned status: %d, body: %s", resp.StatusCode, string(respBodyBytes))
 	}
 
 	// Read and parse response

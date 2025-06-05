@@ -78,6 +78,8 @@ func (s *bahanMakananService) GetByNama(ctx context.Context, nama string) (dto.B
 }
 
 func (s *bahanMakananService) GetAllWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.BahanMakananPaginationResponse, error) {
+	req.Default() // Apply default pagination values (Page=1, PerPage=10 if not set)
+
 	result, count, err := s.bahanMakananRepo.GetAllWithPagination(ctx, nil, req)
 	if err != nil {
 		return dto.BahanMakananPaginationResponse{}, err
@@ -92,12 +94,15 @@ func (s *bahanMakananService) GetAllWithPagination(ctx context.Context, req dto.
 		})
 	}
 
+	maxPage := repository.TotalPage(count, int64(req.PerPage))
+
 	return dto.BahanMakananPaginationResponse{
 		Data: bahanList,
 		PaginationResponse: dto.PaginationResponse{
 			Page:    req.Page,
 			PerPage: req.PerPage,
 			Count:   count,
+			MaxPage: maxPage,
 		},
 	}, nil
 }

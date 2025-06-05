@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
+	"log" // Import the log package
 	"os"
 	"strings"
 	"time"
@@ -108,14 +109,17 @@ func (s *userService) Register(ctx context.Context, req dto.UserCreateRequest) (
 		return dto.UserResponse{}, dto.ErrCreateUser
 	}
 
+	// FIX: Log email sending error instead of returning it as a registration error
 	draftEmail, err := makeVerificationEmail(userReg.Email)
 	if err != nil {
-		return dto.UserResponse{}, err
-	}
-
-	err = utils.SendMail(userReg.Email, draftEmail["subject"], draftEmail["body"])
-	if err != nil {
-		return dto.UserResponse{}, err
+		log.Printf("Failed to prepare verification email for %s: %v", userReg.Email, err)
+		// Continue with successful user registration even if email prep fails
+	} else {
+		err = utils.SendMail(userReg.Email, draftEmail["subject"], draftEmail["body"])
+		if err != nil {
+			log.Printf("Failed to send verification email to %s: %v", userReg.Email, err)
+			// Continue with successful user registration even if email sending fails
+		}
 	}
 
 	return dto.UserResponse{
