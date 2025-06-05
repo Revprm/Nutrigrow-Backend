@@ -1,32 +1,7 @@
-# Golang Gin Gorm Starter
-You can join in the development (Open Source). **Let's Go!!!**
+# Nutrigrow-Backend
 
-## Introduction 👋
-> Clean Architecture is an approach to organizing code in an application that focuses on separating responsibilities and dependencies between components. In the context of Golang, Clean Architecture refers to the application of Clean Architecture principles in developing applications using the Go programming language.
-
-
-![image](https://github.com/user-attachments/assets/0b011bcc-f9c6-466e-a9da-964cce47a8bc)
-
-## Logs Feature 📋
-
-The application includes a built-in logging system that allows you to monitor and track system queries. You can access the logs through a modern, user-friendly interface.
-
-### Accessing Logs
-To view the logs:
-1. Make sure the application is running
-2. Open your browser and navigate to:
-```bash
-http://your-domain/logs
-```
-
-### Features
-- **Monthly Filtering**: Filter logs by selecting different months
-- **Real-time Refresh**: Instantly refresh logs with the refresh button
-- **Expandable Entries**: Click on any log entry to view its full content
-- **Modern UI**: Clean and responsive interface with glass-morphism design
-
-![Logs Interface](https://github.com/user-attachments/assets/adda0afb-a1e4-4e05-b44e-87225fe63309)
-
+## Overview
+A Backend Repository for [Nutrigrow](https://github.com/Logiqode/Nutrigrow) Project.
 
 ## Prerequisite 🏆
 - Go Version `>= go 1.20`
@@ -113,24 +88,6 @@ go run main.go --seed
 ```
 This command will populate the database with initial data using the seeders defined in your application.
 
-#### Script Run
-To run a specific script:
-```bash
-go run main.go --script:example_script
-```
-Replace ``example_script`` with the actual script name in **script.go** at script folder
-
-If you need the application to continue running after performing migrations, seeding, or executing a script, always append the ``--run`` option.
-
-## What did you get?
-By using this template, you get a ready-to-go architecture with pre-configured endpoints. The template provides a structured foundation for building your application using Golang with Clean Architecture principles.
-
 ### Postman Documentation
-You can explore the available endpoints and their usage in the [Postman Documentation](https://documenter.getpostman.com/view/29665461/2s9YJaZQCG). This documentation provides a comprehensive overview of the API endpoints, including request and response examples, making it easier to understand how to interact with the API.
 
-### Issue / Pull Request Template
-
-The repository includes templates for issues and pull requests to standardize contributions and improve the quality of discussions and code reviews.
-
-- **Issue Template**: Helps in reporting bugs or suggesting features by providing a structured format to capture all necessary information.
-- **Pull Request Template**: Guides contributors to provide a clear description of changes, related issues, and testing steps, ensuring smooth and efficient code reviews.
+[Postman Documentation](https://documenter.getpostman.com/view/39901805/2sB2qUnPvX)
