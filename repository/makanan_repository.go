@@ -129,7 +129,19 @@ func (r *makananRepository) Delete(ctx context.Context, tx *gorm.DB, id string) 
 		tx = r.db
 	}
 
-	if err := tx.WithContext(ctx).Delete(&entity.Makanan{}, "id = ?", id).Error; err != nil {
+	// First, load the Makanan item to access its associations
+	var makanan entity.Makanan
+	if err := tx.WithContext(ctx).Preload("BahanMakanans").First(&makanan, "id = ?", id).Error; err != nil {
+		return err // Return error if makanan is not found
+	}
+
+	// FIX: Clear the many-to-many association before deleting the main record
+	if err := tx.WithContext(ctx).Model(&makanan).Association("BahanMakanans").Clear(); err != nil {
+		return err // Return error if clearing association fails
+	}
+
+	// Now delete the Makanan record
+	if err := tx.WithContext(ctx).Delete(&makanan, "id = ?", id).Error; err != nil {
 		return err
 	}
 	return nil

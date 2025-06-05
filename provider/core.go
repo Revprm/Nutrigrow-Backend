@@ -30,7 +30,7 @@ func RegisterDependencies(injector *do.Injector) {
 	mlApiUrl := os.Getenv("ML_API_URL")
 	if mlApiUrl == "" {
 		// Default or error handling if not set
-		mlApiUrl = "http://localhost:5000/predict" // Example default URL
+		mlApiUrl = "http://localhost:8080/predict" // Example default URL
 	}
 
 	// Provide Dependencies for all modules
