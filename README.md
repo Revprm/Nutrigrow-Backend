@@ -1,11 +1,24 @@
 # Nutrigrow-Backend
 
 ## Overview
-A Backend Repository for [Nutrigrow](https://github.com/Logiqode/Nutrigrow) Project.
+A Backend Repository for [Nutrigrow](https://github.com/Logiqode/Nutrigrow) Project. This backend is built with Go, Gin, and GORM, following a Clean Architecture approach. It provides a robust API for managing user data, stunting records, news, food recipes, and their ingredients.
+
+## Features
+- **User Management**: Register, Login, Refresh Token, User Profile (Me), Update/Delete User, Email Verification.
+- **Stunting Records**: Create, Retrieve (by ID, by User ID, latest by User ID), Update, Delete stunting records.
+- **Stunting Prediction**: API endpoint to predict stunting status using an external ML model.
+- **News Management**: Create, Retrieve (by ID, by Category, All with Pagination), Update, Delete news articles.
+- **News Category Management**: Create, Retrieve (by ID, by Name, All), Update, Delete news categories.
+- **Food Recipes Management**: Create, Retrieve (by ID, by Name, All with Pagination, by Ingredient), Update, Delete food recipes.
+- **Ingredient Management**: Create, Retrieve (by ID, by Name, All with Pagination), Update, Delete ingredients.
+- **Database Migrations & Seeding**: Tools to manage database schema and populate initial data.
+- **Authentication**: JWT-based authentication for secure API access.
+- **Logging**: Built-in system for monitoring and tracking system queries with a web interface.
 
 ## Prerequisite 🏆
 - Go Version `>= go 1.20`
 - PostgreSQL Version `>= version 15.0`
+- Docker & Docker Compose (for Dockerized setup)
 
 ## How To Use
 1. Clone the repository
@@ -88,6 +101,6 @@ go run main.go --seed
 ```
 This command will populate the database with initial data using the seeders defined in your application.
 
-### Postman Documentation
-
-[Postman Documentation](https://documenter.getpostman.com/view/39901805/2sB2qUnPvX)
+### API Documentation
+You can explore the available API endpoints and their usage through the Postman Documentation:
+- [Postman Documentation](https://documenter.getpostman.com/view/39901805/2sB2qUnPvX)
