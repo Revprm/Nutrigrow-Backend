@@ -79,7 +79,7 @@ func (c *bahanMakananController) GetByNama(ctx *gin.Context) {
 
 func (c *bahanMakananController) GetAll(ctx *gin.Context) {
 	var req dto.PaginationRequest
-	if err := ctx.ShouldBind(&req); err != nil {
+	if err := ctx.ShouldBindQuery(&req); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
 		return

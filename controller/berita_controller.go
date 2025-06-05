@@ -77,6 +77,7 @@ func (c *beritaController) GetByKategori(ctx *gin.Context) {
 	}
 
 	var req dto.PaginationRequest
+	// FIX: Use ShouldBindQuery for GET requests with query parameters
 	if err := ctx.ShouldBindQuery(&req); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
@@ -102,18 +103,11 @@ func (c *beritaController) GetByKategori(ctx *gin.Context) {
 
 func (c *beritaController) GetAllWithPagination(ctx *gin.Context) {
 	var req dto.PaginationRequest
+	// FIX: Use ShouldBindQuery for GET requests with query parameters
 	if err := ctx.ShouldBindQuery(&req); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
 		return
-	}
-
-	// Set default values if not provided
-	if req.Page <= 0 {
-		req.Page = 1
-	}
-	if req.PerPage <= 0 {
-		req.PerPage = 10
 	}
 
 	result, err := c.beritaService.GetAllWithPagination(ctx.Request.Context(), req)

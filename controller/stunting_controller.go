@@ -78,7 +78,8 @@ func (c *stuntingController) GetByUserID(ctx *gin.Context) {
 	userID := ctx.Param("user_id")
 
 	var req dto.PaginationRequest
-	if err := ctx.ShouldBind(&req); err != nil {
+	// FIX: Changed ShouldBind to ShouldBindQuery for GET requests with query parameters
+	if err := ctx.ShouldBindQuery(&req); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
 		return
