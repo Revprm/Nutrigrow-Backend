@@ -12,4 +12,8 @@ const (
 
 	DB = "db"
 	JWTService = "JWTService"
+
+	CTX_KEY_TOKEN     = "token"
+	CTX_KEY_USER_ID   = "user_id"
+	CTX_KEY_ROLE_NAME = "role"
 )
