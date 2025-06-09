@@ -323,15 +323,27 @@ func (s *userService) Update(ctx context.Context, req dto.UserUpdateRequest, use
 		return dto.UserUpdateResponse{}, dto.ErrUserNotFound
 	}
 
-	data := entity.User{
-		ID:         user.ID,
-		Name:       req.Name,
-		TelpNumber: req.TelpNumber,
-		Role:       user.Role,
-		Email:      req.Email,
+	if req.Name != "" {
+		user.Name = req.Name
+	}
+	if req.TelpNumber != "" {
+		user.TelpNumber = req.TelpNumber
+	}
+	if req.Email != "" {
+		existingUser, exists, err := s.userRepo.CheckEmail(ctx, nil, req.Email)
+		if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+			return dto.UserUpdateResponse{}, err
+		}
+		if exists && existingUser.ID.String() != userId {
+			return dto.UserUpdateResponse{}, dto.ErrEmailAlreadyExists
+		}
+		user.Email = req.Email
+	}
+	if req.Password != "" {
+		user.Password = req.Password
 	}
 
-	userUpdate, err := s.userRepo.Update(ctx, nil, data)
+	userUpdate, err := s.userRepo.Update(ctx, nil, user)
 	if err != nil {
 		return dto.UserUpdateResponse{}, dto.ErrUpdateUser
 	}
@@ -342,7 +354,7 @@ func (s *userService) Update(ctx context.Context, req dto.UserUpdateRequest, use
 		TelpNumber: userUpdate.TelpNumber,
 		Role:       userUpdate.Role,
 		Email:      userUpdate.Email,
-		IsVerified: user.IsVerified,
+		IsVerified: userUpdate.IsVerified,
 	}, nil
 }
 
