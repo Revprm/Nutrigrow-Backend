@@ -7,16 +7,15 @@ import (
 )
 
 type User struct {
-	ID           uuid.UUID `gorm:"type:uuid;primary_key;default:uuid_generate_v4()"`
-	Name         string    `gorm:"type:varchar(100);not null"`
-	Email        string    `gorm:"type:varchar(255);uniqueIndex;not null"`
-	TelpNumber   string    `gorm:"type:varchar(20);index"` // PDM specified 13, yours has 20. Keeping 20.
-	Password     string    `gorm:"type:varchar(255);not null"`
-	Role         string    `gorm:"type:varchar(50);not null;default:'user'"`
-	ImageUrl     string    `gorm:"type:varchar(255)"`
-	IsVerified   bool      `gorm:"default:false"`
-	Alamat       string    `gorm:"type:varchar(255);column:alamat"`   // New from PDM
-	JenisKelamin string    `gorm:"type:char(1);column:jenis_kelamin"` // New from PDM (e.g., 'L', 'P')
+	ID         uuid.UUID `gorm:"type:uuid;primary_key;default:uuid_generate_v4()"`
+	Name       string    `gorm:"type:varchar(100);not null"`
+	Email      string    `gorm:"type:varchar(255);uniqueIndex;not null"`
+	TelpNumber string    `gorm:"type:varchar(20);index"` // PDM specified 13, yours has 20. Keeping 20.
+	Password   string    `gorm:"type:varchar(255);not null"`
+	Role       string    `gorm:"type:varchar(50);not null;default:'user'"`
+	ImageUrl   string    `gorm:"type:varchar(255)"`
+	IsVerified bool      `gorm:"default:false"`
+	Alamat     string    `gorm:"type:varchar(255);column:alamat"` // New from PDM
 
 	// Relationships
 	Stuntings []Stunting `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"` // User can have multiple stunting records
