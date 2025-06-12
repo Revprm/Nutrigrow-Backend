@@ -1,12 +1,13 @@
 package provider
 
 import (
+	"os"
+
 	"github.com/Revprm/Nutrigrow-Backend/config"
 	"github.com/Revprm/Nutrigrow-Backend/constants"
 	"github.com/Revprm/Nutrigrow-Backend/service"
 	"github.com/samber/do"
 	"gorm.io/gorm"
-	"os"
 )
 
 func InitDatabase(injector *do.Injector) {
@@ -30,7 +31,7 @@ func RegisterDependencies(injector *do.Injector) {
 	mlApiUrl := os.Getenv("ML_API_URL")
 	if mlApiUrl == "" {
 		// Default or error handling if not set
-		mlApiUrl = "http://localhost:8080/predict" // Example default URL
+		mlApiUrl = "http://nutrigrow-ml-api:8080/predict" // Example default URL
 	}
 
 	// Provide Dependencies for all modules
