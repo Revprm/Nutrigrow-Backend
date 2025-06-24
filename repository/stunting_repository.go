@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"time"
 	"github.com/Revprm/Nutrigrow-Backend/dto"
 	"github.com/Revprm/Nutrigrow-Backend/entity"
 	"gorm.io/gorm"
@@ -12,6 +13,7 @@ type StuntingRepository interface {
 	GetByID(ctx context.Context, tx *gorm.DB, id string) (entity.Stunting, error)
 	GetByUserID(ctx context.Context, tx *gorm.DB, userID string, req dto.PaginationRequest) ([]entity.Stunting, int64, error)
 	GetLatestByUserID(ctx context.Context, tx *gorm.DB, userID string) (entity.Stunting, error)
+	GetByDateRange(ctx context.Context, tx *gorm.DB, userID string, startDate, endDate time.Time) ([]entity.Stunting, error)
 	Update(ctx context.Context, tx *gorm.DB, stunting entity.Stunting) (entity.Stunting, error)
 	Delete(ctx context.Context, tx *gorm.DB, id string) error
 }
@@ -107,4 +109,22 @@ func (r *stuntingRepository) Delete(ctx context.Context, tx *gorm.DB, id string)
 		return err
 	}
 	return nil
+}
+
+func (r *stuntingRepository) GetByDateRange(ctx context.Context, tx *gorm.DB, userID string, startDate, endDate time.Time) ([]entity.Stunting, error) {
+	if tx == nil {
+		tx = r.db
+	}
+
+	var stuntingList []entity.Stunting
+	query := tx.WithContext(ctx).
+		Preload("User").
+		Where("user_id = ?", userID).
+		Where("created_at BETWEEN ? AND ?", startDate, endDate).
+		Order("created_at ASC")
+
+	if err := query.Find(&stuntingList).Error; err != nil {
+		return nil, err
+	}
+	return stuntingList, nil
 }
