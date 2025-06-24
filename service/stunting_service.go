@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 
 	"github.com/Revprm/Nutrigrow-Backend/dto"
 	"github.com/Revprm/Nutrigrow-Backend/entity"
@@ -25,6 +26,7 @@ type (
 		Update(ctx context.Context, id string, req dto.StuntingUpdateRequest) (dto.StuntingResponse, error)
 		Delete(ctx context.Context, id string) error
 		Predict(ctx context.Context, req dto.StuntingPredictRequest) (dto.StuntingPredictResponse, error)
+		GetForCalendar(ctx context.Context, userID string, req dto.StuntingCalendarRequest) ([]dto.StuntingResponse, error)
 	}
 
 	stuntingService struct {
@@ -68,6 +70,7 @@ func (s *stuntingService) Create(ctx context.Context, req dto.StuntingCreateRequ
 		TinggiBadan:     result.TinggiBadan,
 		CatatanStunting: result.CatatanStunting,
 		HasilPrediksi:   result.HasilPrediksi,
+		CreatedAt:       result.CreatedAt,
 	}, nil
 }
 
@@ -145,6 +148,7 @@ func (s *stuntingService) GetByUserID(ctx context.Context, userID string, req dt
 			CatatanStunting: result.CatatanStunting,
 			HasilPrediksi:   result.HasilPrediksi,
 			User:            userResponse,
+			CreatedAt:       result.CreatedAt,
 		})
 	}
 
@@ -196,6 +200,7 @@ func (s *stuntingService) GetLatestByUserID(ctx context.Context, userID string) 
 		CatatanStunting: result.CatatanStunting,
 		HasilPrediksi:   result.HasilPrediksi,
 		User:            userResponse,
+		CreatedAt:       result.CreatedAt,
 	}, nil
 }
 
@@ -333,4 +338,49 @@ func (s *stuntingService) Predict(ctx context.Context, req dto.StuntingPredictRe
 		StatusGizi: statusGizi,
 		Confidence: predictionResponse.Confidence,
 	}, nil
+}
+
+func (s *stuntingService) GetForCalendar(ctx context.Context, userID string, req dto.StuntingCalendarRequest) ([]dto.StuntingResponse, error) {
+	// Menghitung tanggal mulai dan akhir bulan
+	startDate := time.Date(req.Year, time.Month(req.Month), 1, 0, 0, 0, 0, time.UTC)
+	endDate := startDate.AddDate(0, 1, 0).Add(-time.Nanosecond)
+
+	results, err := s.stuntingRepo.GetByDateRange(ctx, nil, userID, startDate, endDate)
+	if err != nil {
+		return nil, dto.ErrGetStuntingCalendar
+	}
+
+	var data []dto.StuntingResponse
+	for _, result := range results {
+		jenisKelamin := "Perempuan"
+		if result.JenisKelamin == 1 {
+			jenisKelamin = "Laki-laki"
+		}
+
+		userResponse := dto.UserResponse{}
+		if result.User.ID != uuid.Nil {
+			userResponse = dto.UserResponse{
+				ID:         result.User.ID.String(),
+				Name:       result.User.Name,
+				Email:      result.User.Email,
+				TelpNumber: result.User.TelpNumber,
+				Role:       result.User.Role,
+				ImageUrl:   result.User.ImageUrl,
+				IsVerified: result.User.IsVerified,
+			}
+		}
+
+		data = append(data, dto.StuntingResponse{
+			ID:              result.ID,
+			UserID:          result.UserID,
+			JenisKelamin:    jenisKelamin,
+			TinggiBadan:     result.TinggiBadan,
+			CatatanStunting: result.CatatanStunting,
+			HasilPrediksi:   result.HasilPrediksi,
+			CreatedAt:       result.CreatedAt,
+			User:            userResponse,
+		})
+	}
+
+	return data, nil
 }

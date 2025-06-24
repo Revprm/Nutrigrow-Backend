@@ -23,6 +23,7 @@ func Stunting(route *gin.Engine, injector *do.Injector) {
 			authenticated.GET("/:id", stuntingController.GetByID)
 			authenticated.GET("/user/:user_id", stuntingController.GetByUserID)
 			authenticated.GET("/user/:user_id/latest", stuntingController.GetLatestByUserID)
+			authenticated.GET("/calendar", stuntingController.GetForCalendar)
 			authenticated.PUT("/:id", stuntingController.Update)
 			authenticated.DELETE("/:id", stuntingController.Delete)
 		}
