@@ -84,6 +84,12 @@ type (
 		Password   string `json:"password" form:"password" binding:"omitempty,min=8"`
 		Email      string `json:"email" form:"email" binding:"omitempty,email"`
 	}
+	
+	UserUpdatePasswordRequest struct {
+		OldPassword     string `json:"old_password" binding:"required"`
+		NewPassword     string `json:"new_password" binding:"required,min=8"`
+		ConfirmPassword string `json:"confirm_password" binding:"required,eqfield=NewPassword"`
+	}
 
 	UserUpdateResponse struct {
 		ID         string `json:"id"`
