@@ -365,7 +365,7 @@ func (s *userService) UpdatePassword(ctx context.Context, req dto.UserUpdatePass
 		return dto.ErrUserNotFound
 	}
 
-	// Cek kesesuaian password lama
+	// Check if the old password matches the stored password
 	match, err := helpers.CheckPassword(user.Password, []byte(req.OldPassword))
 	if err != nil || !match {
 		return errors.New("Old password is incorrect")
