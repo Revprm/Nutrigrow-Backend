@@ -368,12 +368,12 @@ func (s *userService) UpdatePassword(ctx context.Context, req dto.UserUpdatePass
 	// Cek kesesuaian password lama
 	match, err := helpers.CheckPassword(user.Password, []byte(req.OldPassword))
 	if err != nil || !match {
-		return errors.New("Old password is incorrect")
+		return dto.ErrOldPasswordMismatch
 	}
 
     hashedPassword, err := helpers.HashPassword(req.NewPassword)
     if err != nil {
-        return errors.New("failed to hash the new password")
+        return dto.ErrFailedToHashPassword
     }
     user.Password = hashedPassword
 

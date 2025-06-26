@@ -170,23 +170,23 @@ func (c *userController) Update(ctx *gin.Context) {
 }
 
 func (c *userController) UpdatePassword(ctx *gin.Context) {
-    var req dto.UserUpdatePasswordRequest
-    if err := ctx.ShouldBind(&req); err != nil {
-        res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
-        ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
-        return
-    }
+	var req dto.UserUpdatePasswordRequest
+	if err := ctx.ShouldBind(&req); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
 
-    userId := ctx.MustGet("user_id").(string)
-    err := c.userService.UpdatePassword(ctx.Request.Context(), req, userId)
-    if err != nil {
-        res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_USER, err.Error(), nil)
-        ctx.JSON(http.StatusBadRequest, res)
-        return
-    }
+	userId := ctx.MustGet("user_id").(string)
+	err := c.userService.UpdatePassword(ctx.Request.Context(), req, userId)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_USER, err.Error(), nil)
+		ctx.JSON(http.StatusBadRequest, res)
+		return
+	}
 
-    res := utils.BuildResponseSuccess("Password updated successfully", nil)
-    ctx.JSON(http.StatusOK, res)
+	res := utils.BuildResponseSuccess("Password updated successfully", nil)
+	ctx.JSON(http.StatusOK, res)
 }
 
 func (c *userController) Delete(ctx *gin.Context) {

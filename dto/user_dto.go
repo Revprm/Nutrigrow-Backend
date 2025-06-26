@@ -42,6 +42,9 @@ var (
 	ErrUpdateUser             = errors.New("failed to update user")
 	ErrUserNotFound           = errors.New("user not found")
 	ErrEmailNotFound          = errors.New("email not found")
+	ErrOldPasswordMismatch    = errors.New("old password does not match")
+	ErrPasswordMismatch       = errors.New("password does not match")
+	ErrFailedToHashPassword   = errors.New("failed to hash the new password")
 	ErrDeleteUser             = errors.New("failed to delete user")
 	ErrTokenInvalid           = errors.New("token invalid")
 	ErrTokenExpired           = errors.New("token expired")
@@ -84,7 +87,7 @@ type (
 		Password   string `json:"password" form:"password" binding:"omitempty,min=8"`
 		Email      string `json:"email" form:"email" binding:"omitempty,email"`
 	}
-	
+
 	UserUpdatePasswordRequest struct {
 		OldPassword     string `json:"old_password" binding:"required"`
 		NewPassword     string `json:"new_password" binding:"required,min=8"`
