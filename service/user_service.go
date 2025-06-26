@@ -31,6 +31,7 @@ type (
 		SendVerificationEmail(ctx context.Context, req dto.SendVerificationEmailRequest) error
 		VerifyEmail(ctx context.Context, req dto.VerifyEmailRequest) (dto.VerifyEmailResponse, error)
 		Update(ctx context.Context, req dto.UserUpdateRequest, userId string) (dto.UserUpdateResponse, error)
+		UpdatePassword(ctx context.Context, req dto.UserUpdatePasswordRequest, userId string) error
 		Delete(ctx context.Context, userId string) error
 		Verify(ctx context.Context, req dto.UserLoginRequest) (dto.TokenResponse, error)
 		RefreshToken(ctx context.Context, req dto.RefreshTokenRequest) (dto.TokenResponse, error)
@@ -356,6 +357,32 @@ func (s *userService) Update(ctx context.Context, req dto.UserUpdateRequest, use
 		Email:      userUpdate.Email,
 		IsVerified: userUpdate.IsVerified,
 	}, nil
+}
+
+func (s *userService) UpdatePassword(ctx context.Context, req dto.UserUpdatePasswordRequest, userId string) error {
+	user, err := s.userRepo.GetUserById(ctx, nil, userId)
+	if err != nil {
+		return dto.ErrUserNotFound
+	}
+
+	// Check if the old password matches the stored password
+	match, err := helpers.CheckPassword(user.Password, []byte(req.OldPassword))
+	if err != nil || !match {
+		return dto.ErrOldPasswordMismatch
+	}
+
+    hashedPassword, err := helpers.HashPassword(req.NewPassword)
+    if err != nil {
+        return dto.ErrFailedToHashPassword
+    }
+    user.Password = hashedPassword
+
+	_, err = s.userRepo.Update(ctx, nil, user)
+	if err != nil {
+		return dto.ErrUpdateUser
+	}
+
+	return nil
 }
 
 func (s *userService) Delete(ctx context.Context, userId string) error {

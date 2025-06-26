@@ -19,6 +19,7 @@ type (
 		SendVerificationEmail(ctx *gin.Context)
 		VerifyEmail(ctx *gin.Context)
 		Update(ctx *gin.Context)
+		UpdatePassword(ctx *gin.Context)
 		Delete(ctx *gin.Context)
 	}
 
@@ -165,6 +166,26 @@ func (c *userController) Update(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_USER, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (c *userController) UpdatePassword(ctx *gin.Context) {
+	var req dto.UserUpdatePasswordRequest
+	if err := ctx.ShouldBind(&req); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	userId := ctx.MustGet("user_id").(string)
+	err := c.userService.UpdatePassword(ctx.Request.Context(), req, userId)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_USER, err.Error(), nil)
+		ctx.JSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess("Password updated successfully", nil)
 	ctx.JSON(http.StatusOK, res)
 }
 

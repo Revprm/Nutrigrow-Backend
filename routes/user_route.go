@@ -23,6 +23,7 @@ func User(route *gin.Engine, injector *do.Injector) {
 		routes.DELETE("", middleware.Authenticate(jwtService), userController.Delete)
 		routes.PATCH("", middleware.Authenticate(jwtService), userController.Update)
 		routes.GET("/me", middleware.Authenticate(jwtService), userController.Me)
+		routes.PATCH("/password", middleware.Authenticate(jwtService), userController.UpdatePassword)
 		routes.POST("/verify_email", userController.VerifyEmail)
 		routes.POST("/send_verification_email", userController.SendVerificationEmail)
 	}
