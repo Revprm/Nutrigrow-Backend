@@ -360,25 +360,25 @@ func (s *userService) Update(ctx context.Context, req dto.UserUpdateRequest, use
 }
 
 func (s *userService) UpdatePassword(ctx context.Context, req dto.UserUpdatePasswordRequest, userId string) error {
-    user, err := s.userRepo.GetUserById(ctx, nil, userId)
-    if err != nil {
-        return dto.ErrUserNotFound
-    }
+	user, err := s.userRepo.GetUserById(ctx, nil, userId)
+	if err != nil {
+		return dto.ErrUserNotFound
+	}
 
-    // Cek kesesuaian password lama
-    match, err := helpers.CheckPassword(user.Password, []byte(req.OldPassword))
-    if err != nil || !match {
-        return errors.New("password lama salah")
-    }
+	// Cek kesesuaian password lama
+	match, err := helpers.CheckPassword(user.Password, []byte(req.OldPassword))
+	if err != nil || !match {
+		return errors.New("Old password is incorrect")
+	}
 
-    user.Password = req.NewPassword 
+	user.Password = req.NewPassword
 
-    _, err = s.userRepo.Update(ctx, nil, user)
-    if err != nil {
-        return dto.ErrUpdateUser
-    }
+	_, err = s.userRepo.Update(ctx, nil, user)
+	if err != nil {
+		return dto.ErrUpdateUser
+	}
 
-    return nil
+	return nil
 }
 
 func (s *userService) Delete(ctx context.Context, userId string) error {

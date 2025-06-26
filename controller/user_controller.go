@@ -185,7 +185,7 @@ func (c *userController) UpdatePassword(ctx *gin.Context) {
         return
     }
 
-    res := utils.BuildResponseSuccess("berhasil memperbarui password", nil)
+    res := utils.BuildResponseSuccess("Password updated successfully", nil)
     ctx.JSON(http.StatusOK, res)
 }
 
