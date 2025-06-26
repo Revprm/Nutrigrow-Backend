@@ -371,7 +371,11 @@ func (s *userService) UpdatePassword(ctx context.Context, req dto.UserUpdatePass
         return errors.New("password lama salah")
     }
 
-    user.Password = req.NewPassword 
+    hashedPassword, err := helpers.HashPassword(req.NewPassword)
+    if err != nil {
+        return errors.New("failed to hash the new password")
+    }
+    user.Password = hashedPassword
 
     _, err = s.userRepo.Update(ctx, nil, user)
     if err != nil {
